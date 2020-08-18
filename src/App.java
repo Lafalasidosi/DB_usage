@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.security.SecureRandom;
 
 public class App {
     public static void main(String[] args) {
@@ -10,33 +11,29 @@ public class App {
         final String password = "h74AX9ws";
         Connection c = null;
         Statement stmt = null;
+        String depts[] = {"Human Resources", "IT", "Sales", "Warehouse", "Management", "Financial"};
+        String firstNames[] = {"Mark", "Joan", "Kelly", "Henry", "Dagny", "Eugene"};
+        String lastNames[] = {"Hamilton", "Spencer", "Gerk", "Rearden", "Taggart", "Levy"};
+        SecureRandom rand = new SecureRandom();
+
         try {
             c = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
             stmt = c.createStatement();
-//            String sql = "CREATE TABLE COMPANY " +
-//                    "(ID INT PRIMARY KEY     NOT NULL," +
-//                    " NAME           TEXT    NOT NULL, " +
-//                    " AGE            INT     NOT NULL, " +
-//                    " ADDRESS        CHAR(50), " +
-//                    " SALARY         REAL)";
-//            stmnt.executeUpdate(sql);
 
-            String sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (1, 'Paul', 32, 'California', 20000.00 );";
+            String sql = "CREATE TABLE COMPANY " +
+                    "(ID    INT," +
+                    " NAME           VARCHAR(20), " +
+                    " DEPT            VARCHAR(50), " +
+                    " EID              INT, " +
+                    " SALARY         INT)";
             stmt.executeUpdate(sql);
 
-            sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (2, 'Allen', 25, 'Texas', 15000.00 );";
-            stmt.executeUpdate(sql);
-
-            sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );";
-            stmt.executeUpdate(sql);
-
-            sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "
-                    + "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
-            stmt.executeUpdate(sql);
+            for (int i = 0; i < 1000; i++) {
+                sql = String.format("INSERT INTO COMPANY (ID, NAME, DEPT, EID, SALARY) VALUES (%d, '%s %s', '%s', %d, %d);", i+1, firstNames[rand.nextInt(6)],
+                                        lastNames[rand.nextInt(6)], depts[rand.nextInt(6)], i, (2000 + rand.nextInt(5000)));
+                stmt.executeUpdate(sql);
+            }
 
             stmt.close();
             c.close();
