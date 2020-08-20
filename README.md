@@ -21,3 +21,7 @@ of the "md5" entries to "trusted." Don't ask me how exactly it worked, but it di
 ### Aug 17
 Lazy Sunday gone and passed, I can now say I know how to tell Java to populate a database.
 Spent more time than I care to admit on simple syntax errors.
+
+### Aug 19
+Two days of frustration gone and passed, I've finally gotten JavaFX to work; I'd keep getting awful *javafx doesn't exist* errors. 
+Somehow fixed it after messing about with it. Feeling like I'm falling behind.
