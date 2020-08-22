@@ -41,3 +41,9 @@ public void start(Stage primaryStage) throws Exception {
 ```
 always ends in an exception. Researching the topic. 
 What I managed here works for now, anyway.
+
+### August 22
+Learned how to put table entries into a TableView object:
+how *I* did it, at least, is I "translated" ResultSet elements into objects of class Person written to supplement the main app.
+Next step is to refactor the code to do what my project is *actually* going to be:
+a blood glucose data entry app for my roommates. Sure, they could be taught Excel with some effort, but this is more fun. 

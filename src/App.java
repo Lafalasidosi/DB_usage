@@ -5,7 +5,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.geometry.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,10 +19,11 @@ public class App extends Application {
     Scene scene;
     Button button1;
     Button button2;
-    TableView<String> tableView;
-    TableColumn<String, String> column1;
-    TableColumn<String, String> column2;
-    TableColumn<String, String> column3;
+    Button button3;
+    TableView<Person> tableView;
+    TableColumn<Person, String> column1;
+    TableColumn<Person, String> column2;
+    TableColumn<Person, String> column3;
     // database connection
     final String url = "jdbc:postgresql://localhost/mydb";
     final String user = "john";
@@ -49,14 +49,19 @@ public class App extends Application {
         column3.setCellValueFactory(new PropertyValueFactory<>("dept"));
         tableView.getColumns().addAll(column1, column2, column3);
         button1 = new Button("Initialize");
+        button1.setOnAction(e -> initializeDB());
         button2 = new Button("Clear");
         button2.setOnAction(e -> clearDatabase());
-        button1.setOnAction(e -> initializeDB());
+        //populateTable();
+        button3 = new Button("Show");
+        button3.setOnAction(e -> populateTable());
 
         // Layout
         VBox layout = new VBox(10);
+        HBox buttonContainer = new HBox();
+        buttonContainer.getChildren().addAll(button1, button2, button3);
         layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.getChildren().addAll(tableView, button1, button2);
+        layout.getChildren().addAll(tableView, buttonContainer);
 
         // construct window
         scene = new Scene(layout, 500, 250);
@@ -64,10 +69,29 @@ public class App extends Application {
         window.show();
     }
 
+    private void populateTable() {
+        try(Connection c = DriverManager.getConnection(url, user, password);
+            Statement s = c.createStatement();) {
+            String query = String.format("select * from company;");
+            ResultSet rs = s.executeQuery(query);
+
+            for(int id = 1000; id < 1100; id++){
+                rs.next();
+                tableView.getItems().add(new Person(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3)));
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to populate tableView");
+            e.printStackTrace();
+        }
+    }
+
     private void clearDatabase(){
         try(Connection c = DriverManager.getConnection(url, user, password);
             Statement s = c.createStatement();){
-            s.executeUpdate("delete from company where id > 1000;");
+            s.executeUpdate("delete from company where id > 999;");
         } catch(SQLException e){
             System.err.println("Couldn't clear the database");
         }
