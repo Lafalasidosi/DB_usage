@@ -28,3 +28,16 @@ Somehow fixed it after messing about with it. Feeling like I'm falling behind.
 
 **Later that day:** A few searches later and the code can print lines from a single table to the terminal.
 Next on the agenda is to make use of the TableView class and output to a whole window.
+
+### Aug 21
+I now know how to get this thing to do some operations to a table.
+Found out that trying something like 
+```
+public void start(Stage primaryStage) throws Exception {
+    try(Connection c = connectToDatabaseMethod(url, usr, passwd);
+    Statement s = c.createStatement();){
+/* etc. */
+    s.executeUpdate(...);
+```
+always ends in an exception. Researching the topic. 
+What I managed here works for now, anyway.
