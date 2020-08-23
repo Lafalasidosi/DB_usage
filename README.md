@@ -44,6 +44,10 @@ What I managed here works for now, anyway.
 
 ### August 22
 Learned how to put table entries into a TableView object:
-how *I* did it, at least, is I "translated" ResultSet elements into objects of class Person written to supplement the main app.
+how *I* did it, at least, is I "translated" ResultSet elements into objects of class Entry written to supplement the main app.
 Next step is to refactor the code to do what my project is *actually* going to be:
-a blood glucose data entry app for my roommates. Sure, they could be taught Excel with some effort, but this is more fun. 
+a blood glucose data entry app for my roommates. Sure, they could be taught Excel with some effort, but this is more fun.
+
+### August 23
+So far today just made the code display and connect to a database which looks more like the Norther Health form I'm referencing.
+Next step is to add functionality for adding and/or deleting rows.
