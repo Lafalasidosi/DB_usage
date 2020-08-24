@@ -31,6 +31,7 @@ public class App extends Application {
     TableColumn<Entry, String> column11;
     TableColumn<Entry, String> column12;
     TableColumn<Entry, String> column13;
+    Button addButton;
     // database connection
     final String url = "jdbc:postgresql://localhost/omasdb";
     final String user = "john";
@@ -87,13 +88,16 @@ public class App extends Application {
                 column11,
                 column12,
                 column13);
+        addButton = new Button("Add");
+        addButton.setOnAction(e -> AddRow.display());
+
 
         populateTable();
 
         // Layout
         VBox layout = new VBox(10);
         HBox buttonContainer = new HBox();
-        buttonContainer.getChildren().addAll();
+        buttonContainer.getChildren().addAll(addButton);
         layout.setPadding(new Insets(20, 20, 20, 20));
         layout.getChildren().addAll(tableView, buttonContainer);
 
