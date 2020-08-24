@@ -51,3 +51,7 @@ a blood glucose data entry app for my roommates. Sure, they could be taught Exce
 ### August 23
 So far today just made the code display and connect to a database which looks more like the Norther Health form I'm referencing.
 Next step is to add functionality for adding and/or deleting rows.
+
+#### Later that day
+Began reviewing creation of additional windows and built foundation on which to implement the addition of a new line of glucose data.
+I can see that updating the table one element of a row at a time if the user wishes would probably be best at some point.
