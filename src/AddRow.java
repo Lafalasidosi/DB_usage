@@ -5,13 +5,13 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 
-public class AddRow {
-    /* window is a text area and confirm button
-    user input looks like entering each field in a comma-separated list
-    return array of String inputs or null if user presses cancel
-     */
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-    public static void display() {
+public class AddRow {
+    public static void display(String url, String user, String password) {
         Stage window = new Stage();
         // blocks user interaction with other windows until this one is done
         window.initModality(Modality.APPLICATION_MODAL);
@@ -22,7 +22,9 @@ public class AddRow {
         TextArea userInput = new TextArea();
         userInput.setPromptText("Comma-separated values for the different fields");
         Button add = new Button("Append to table");
+        add.setOnAction(e -> addRow(userInput.getText(), url, user, password));
         Button cancel = new Button("Cancel");
+        cancel.setOnAction(e -> window.close());
 
         HBox buttonContainer = new HBox();
         buttonContainer.getChildren().addAll(add, cancel);
@@ -33,6 +35,36 @@ public class AddRow {
         window.setScene(scene);
         window.showAndWait();
 
+    }
 
+    private static void addRow(String input, String url, String user, String password){
+        try (Connection c = DriverManager.getConnection(url, user, password);
+             Statement s = c.createStatement();) {
+
+            String inputs[] = input.split(",");
+            String sql = String.format("insert into sugars " +
+                    "(date, wakeupbs, breakfast, twohrbs1, prelunchbs, " +
+                    "lunch, twohrbs2, presupperbs, supper, twohrbs3, " +
+                    "prebedbs, exercise, comments) values " +
+                    "('%s',%.1f,'%s',%.1f,%.1f,'%s',%.1f,%.1f,'%s',%.1f,%.1f,'%s','%s');",
+                    inputs[0],
+                    Float.valueOf(inputs[1]),
+                    inputs[2],
+                    Float.valueOf(inputs[3]),
+                    Float.valueOf(inputs[4]),
+                    inputs[5],
+                    Float.valueOf(inputs[6]),
+                    Float.valueOf(inputs[7]),
+                    inputs[8],
+                    Float.valueOf(inputs[9]),
+                    Float.valueOf(inputs[10]),
+                    inputs[11],
+                    inputs[12]);
+            s.execute(sql);
+
+        } catch(SQLException e) {
+            System.err.println("Something went wrong in AddRow.addrow()");
+            e.printStackTrace();
+        }
     }
 }

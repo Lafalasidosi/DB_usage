@@ -55,3 +55,11 @@ Next step is to add functionality for adding and/or deleting rows.
 #### Later that day
 Began reviewing creation of additional windows and built foundation on which to implement the addition of a new line of glucose data.
 I can see that updating the table one element of a row at a time if the user wishes would probably be best at some point.
+
+### August 24
+Picking up the pace; basic adding and removing capabilites added. Dependent on specific formatting for the moment.
+Can forsee some things I'd want to fix: table view of database'll need "pages" at some point; add/delete windows need to be prettier;
+AddRow TextArea should either be smaller or feature word wrap somehow; deleting a row should be as easy as highlighing row to delete
+or opening up the delete dialogue if no rows selected.
+
+Next step is to either tackle some of the above issues or add more functionality, like displaying an average over some range of dates.

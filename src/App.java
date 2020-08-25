@@ -32,6 +32,8 @@ public class App extends Application {
     TableColumn<Entry, String> column12;
     TableColumn<Entry, String> column13;
     Button addButton;
+    Button delButton;
+    Button refreshButton;
     // database connection
     final String url = "jdbc:postgresql://localhost/omasdb";
     final String user = "john";
@@ -89,15 +91,18 @@ public class App extends Application {
                 column12,
                 column13);
         addButton = new Button("Add");
-        addButton.setOnAction(e -> AddRow.display());
-
+        addButton.setOnAction(e -> AddRow.display(url, user, password));
+        delButton = new Button("Delete");
+        delButton.setOnAction(e -> RemoveRow.display(url, user, password));
+        refreshButton = new Button("Refresh");
+        refreshButton.setOnAction(e -> populateTable());
 
         populateTable();
 
         // Layout
         VBox layout = new VBox(10);
         HBox buttonContainer = new HBox();
-        buttonContainer.getChildren().addAll(addButton);
+        buttonContainer.getChildren().addAll(addButton, delButton, refreshButton);
         layout.setPadding(new Insets(20, 20, 20, 20));
         layout.getChildren().addAll(tableView, buttonContainer);
 
@@ -108,6 +113,7 @@ public class App extends Application {
     }
 
     private void populateTable() {
+        tableView.getItems().clear();
         try (Connection c = DriverManager.getConnection(url, user, password);
              Statement s = c.createStatement();) {
             String query = String.format("select * from sugars;");
