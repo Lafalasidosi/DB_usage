@@ -22,7 +22,10 @@ public class AddRow {
         TextArea userInput = new TextArea();
         userInput.setPromptText("Comma-separated values for the different fields");
         Button add = new Button("Append to table");
-        add.setOnAction(e -> addRow(userInput.getText(), url, user, password));
+        add.setOnAction(e -> {
+            addRow(userInput.getText(), url, user, password);
+            window.close();
+        });
         Button cancel = new Button("Cancel");
         cancel.setOnAction(e -> window.close());
 

@@ -25,7 +25,10 @@ public class RemoveRow {
         TextField userInput = new TextField();
         userInput.setPromptText("YYY-MM-DD");
         Button remove = new Button("Delete from table");
-        remove.setOnAction(e -> removeRow(userInput.getText(), url, user, password));
+        remove.setOnAction(e -> {
+            removeRow(userInput.getText(), url, user, password);
+            window.close();
+        });
         Button cancel = new Button("Cancel");
         cancel.setOnAction(e -> window.close());
 

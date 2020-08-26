@@ -63,3 +63,16 @@ AddRow TextArea should either be smaller or feature word wrap somehow; deleting 
 or opening up the delete dialogue if no rows selected.
 
 Next step is to either tackle some of the above issues or add more functionality, like displaying an average over some range of dates.
+
+### August 26
+Not all that much progress today except some small user experience tweaks and conceptualizing next step:
+```
+/*
+all user gives is the date range (and eventually which set of blood sugar data too e.g. morning, afternoon, evening)
+select rows w/in date range for processing
+calculate avg for each column of numbers, 7 in total
+then find the rows where the glucose measurement exceeds the average by some amount or proportion
+
+side note: sql avg() seems to handle NULL number fields on its own -> refactor AddRow.java at some point
+ */
+```

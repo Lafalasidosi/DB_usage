@@ -34,6 +34,7 @@ public class App extends Application {
     Button addButton;
     Button delButton;
     Button refreshButton;
+    Button findSpikeButton;
     // database connection
     final String url = "jdbc:postgresql://localhost/omasdb";
     final String user = "john";
@@ -91,11 +92,21 @@ public class App extends Application {
                 column12,
                 column13);
         addButton = new Button("Add");
-        addButton.setOnAction(e -> AddRow.display(url, user, password));
+        addButton.setOnAction(e -> {
+            AddRow.display(url, user, password);
+            populateTable();
+        });
         delButton = new Button("Delete");
-        delButton.setOnAction(e -> RemoveRow.display(url, user, password));
+        delButton.setOnAction(e -> {
+            RemoveRow.display(url, user, password);
+            populateTable();
+        });
         refreshButton = new Button("Refresh");
         refreshButton.setOnAction(e -> populateTable());
+        findSpikeButton = new Button("Find Spike");
+        // findSpikeButton.setOnAction(e -> {
+        //      Spike.display(url, user, password);
+        //      showSearchResult()
 
         populateTable();
 
