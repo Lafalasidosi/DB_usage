@@ -37,8 +37,8 @@ public class App extends Application {
     Button findSpikeButton;
     // database connection
     final String url = "jdbc:postgresql://localhost/omasdb";
-    final String user = "john";
-    final String password = "john";
+    final String user = "oma";
+    final String password = "oma";
 
     public static void main(String[] args) {
         launch(args);
@@ -103,17 +103,18 @@ public class App extends Application {
         });
         refreshButton = new Button("Refresh");
         refreshButton.setOnAction(e -> populateTable());
-        findSpikeButton = new Button("Find Spike");
-        // findSpikeButton.setOnAction(e -> {
-        //      Spike.display(url, user, password);
-        //      showSearchResult()
+        findSpikeButton = new Button("Find Spikes");
+         findSpikeButton.setOnAction(e -> {
+              Spike.display(url, user, password);
+              // showSearchResult();
+         });
 
         populateTable();
 
         // Layout
         VBox layout = new VBox(10);
         HBox buttonContainer = new HBox();
-        buttonContainer.getChildren().addAll(addButton, delButton, refreshButton);
+        buttonContainer.getChildren().addAll(addButton, delButton, refreshButton, findSpikeButton);
         layout.setPadding(new Insets(20, 20, 20, 20));
         layout.getChildren().addAll(tableView, buttonContainer);
 
@@ -127,7 +128,7 @@ public class App extends Application {
         tableView.getItems().clear();
         try (Connection c = DriverManager.getConnection(url, user, password);
              Statement s = c.createStatement();) {
-            String query = String.format("select * from sugars;");
+            String query = "select * from sugars;";
             ResultSet rs = s.executeQuery(query);
 
             while(rs.next())
