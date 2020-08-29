@@ -76,3 +76,6 @@ then find the rows where the glucose measurement exceeds the average by some amo
 side note: sql avg() seems to handle NULL number fields on its own -> refactor AddRow.java at some point
  */
 ```
+
+### August 28
+Spent yesterday and today cramming for my LCFS exam. Made some small progress toward implementing the idea from the 26th.
