@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.security.SecureRandom;
 import java.sql.Statement;
 
-public class App extends Application {
+public class Glacker extends Application {
 
     Stage window;
     Scene scene;
@@ -35,6 +35,9 @@ public class App extends Application {
     Button delButton;
     Button refreshButton;
     Button findSpikeButton;
+    Label spikeDateText;
+    TextField beginDate;
+    TextField endDate;
     // database connection
     final String url = "jdbc:postgresql://localhost/omasdb";
     final String user = "oma";
@@ -91,32 +94,43 @@ public class App extends Application {
                 column11,
                 column12,
                 column13);
+        spikeDateText = new Label("Start/End Date for Find Spikes: ");
+        beginDate = new TextField();
+        endDate = new TextField();
         addButton = new Button("Add");
         addButton.setOnAction(e -> {
             AddRow.display(url, user, password);
-            populateTable();
+            populateTable("select * from sugars;");
         });
         delButton = new Button("Delete");
         delButton.setOnAction(e -> {
             RemoveRow.display(url, user, password);
-            populateTable();
+            populateTable("select * from sugars;");
         });
         refreshButton = new Button("Refresh");
-        refreshButton.setOnAction(e -> populateTable());
+        refreshButton.setOnAction(e -> populateTable("select * from sugars;"));
         findSpikeButton = new Button("Find Spikes");
          findSpikeButton.setOnAction(e -> {
-              Spike.display(url, user, password);
-              // showSearchResult();
+             String substring = String.format("select * from sugars where date >= '%s' and date <= '%s'", beginDate.getText(), endDate.getText());
+              populateTable("select * from  (" + substring + ") as foo where wakeupbs > 1.25 * (select avg(wakeupbs) from sugars where date > '2010-01-01') or\n" +
+                      "twohrbs1 > 1.25 * (select avg(twohrbs1) from sugars where date > '2010-01-01') or\n" +
+                      "prelunchbs > 1.25 * (select avg(prelunchbs) from sugars where date > '2010-01-01') or\n" +
+                      "twohrbs2 > 1.25 * (select avg(twohrbs2) from sugars where date > '2010-01-01') or\n" +
+                      "presupperbs > 1.25 * (select avg(presupperbs) from sugars where date > '2010-01-01') or\n" +
+                      "twohrbs3 > 1.25 * (select avg(twohrbs3) from sugars where date > '2010-01-01') or\n" +
+                      "prebedbs > 1.25 * (select avg(prebedbs) from sugars where date > '2010-01-01');");
          });
 
-        populateTable();
+        populateTable("select * from sugars;");
 
         // Layout
         VBox layout = new VBox(10);
+        HBox spikeDatesContainer = new HBox();
+        spikeDatesContainer.getChildren().addAll(spikeDateText, beginDate, endDate);
         HBox buttonContainer = new HBox();
         buttonContainer.getChildren().addAll(addButton, delButton, refreshButton, findSpikeButton);
         layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.getChildren().addAll(tableView, buttonContainer);
+        layout.getChildren().addAll(tableView, spikeDatesContainer, buttonContainer);
 
         // construct window
         scene = new Scene(layout, 1200, 500);
@@ -124,11 +138,10 @@ public class App extends Application {
         window.show();
     }
 
-    private void populateTable() {
+    private void populateTable(String query) {
         tableView.getItems().clear();
         try (Connection c = DriverManager.getConnection(url, user, password);
              Statement s = c.createStatement();) {
-            String query = "select * from sugars;";
             ResultSet rs = s.executeQuery(query);
 
             while(rs.next())
@@ -161,6 +174,7 @@ public class App extends Application {
             System.err.println("Couldn't clear the database");
         }
     }
+
 
     // Why does trying to have this return a connection in the heart of the app always throw an exception?
 //    private Connection connectToDatabase(String url, String user, String password) {

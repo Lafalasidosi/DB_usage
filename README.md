@@ -79,3 +79,11 @@ side note: sql avg() seems to handle NULL number fields on its own -> refactor A
 
 ### August 28
 Spent yesterday and today cramming for my LCFS exam. Made some small progress toward implementing the idea from the 26th.
+
+#### Later that day
+She's by no means pretty, but she gets the job done. Glucose Tracker, tentatively named *Glacker*,  now finds significant deviations within a desired time frame.
+By this I mean suppose one has a year's worth of data and wants to find the times in a month, say, where one's glucose level rose "suddenly."
+The *Find Spikes* button, when given two valid dates to work with, finds the average level of the seven real-valued columns in the specified rows.
+Then it populates the table in the main window with only those rows whose glucose recording exceeds its respective column's average by 25%.
+Lost Spike.java during the making of this functionality, but he might return if I revert the code to "classes, classes everywhere."
+She'll remain a homely hybrid for the time being.
